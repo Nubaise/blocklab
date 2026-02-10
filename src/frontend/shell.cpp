@@ -11,6 +11,11 @@ void Shell::run()
     std::cout << "blocklab> ";
     while (std::getline(std::cin, input))
     {
+        if (input.empty())
+        {
+            std::cout << "blocklab> ";
+            continue;
+        }
 
         if (input == ".exit")
         {
