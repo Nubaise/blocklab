@@ -3,5 +3,5 @@
 
 void Engine::execute(const std::string &cmd)
 {
-    std::cout << "[engine] " << cmd << std::endl;
+    std::cout << "[engine] received command: " << cmd << std::endl;
 }
