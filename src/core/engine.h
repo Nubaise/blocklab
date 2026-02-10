@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <vector>
 
 class Engine
 {
@@ -11,6 +10,5 @@ public:
 private:
     void load();
     void persist(const std::string &cmd);
-
-    std::vector<std::string> history;
+    std::string classify(const std::string &cmd);
 };

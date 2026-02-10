@@ -1,6 +1,8 @@
 #include "engine.h"
 #include <fstream>
 #include <iostream>
+#include <sstream>
+#include <cctype>
 
 static const char *DATA_FILE = "data.log";
 
@@ -18,13 +20,10 @@ void Engine::load()
         return;
 
     std::cout << "[engine] loaded previous data:\n";
-
     while (std::getline(in, line))
     {
-        history.push_back(line);
         std::cout << line << std::endl;
     }
-
     std::cout << std::endl;
 }
 
@@ -34,10 +33,33 @@ void Engine::persist(const std::string &cmd)
     out << cmd << "\n";
 }
 
+std::string Engine::classify(const std::string &cmd)
+{
+    std::istringstream iss(cmd);
+    std::string first;
+    iss >> first;
+
+    for (char &c : first)
+        c = std::toupper(c);
+
+    if (first == "CREATE")
+        return "CREATE";
+    if (first == "INSERT")
+        return "INSERT";
+    if (first == "SELECT")
+        return "SELECT";
+    if (first == "DELETE")
+        return "DELETE";
+    if (first == "DROP")
+        return "DROP";
+
+    return "UNKNOWN";
+}
+
 void Engine::execute(const std::string &cmd)
 {
-    history.push_back(cmd);
+    std::string type = classify(cmd);
     persist(cmd);
 
-    std::cout << "[engine] stored: " << cmd << std::endl;
+    std::cout << "[engine] command type: " << type << std::endl;
 }
